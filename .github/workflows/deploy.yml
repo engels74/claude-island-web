@@ -1,13 +1,16 @@
 name: Deploy to GitHub Pages
 
 on:
-  push:
+  workflow_run:
+    workflows: ["Code Quality"]
+    types:
+      - completed
     branches:
       - main
 
 jobs:
   deploy:
-    if: ${{ !contains(github.event.head_commit.message, '[skip ci]') }}
+    if: ${{ github.event.workflow_run.conclusion == 'success' && !contains(github.event.workflow_run.head_commit.message, '[skip ci]') }}
     runs-on: ubuntu-latest
 
     steps:
