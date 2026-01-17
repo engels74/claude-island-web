@@ -1,0 +1,42 @@
+name: Update Appcast
+
+on:
+  repository_dispatch:
+    types: [update-appcast]
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout website
+        uses: actions/checkout@v6
+
+      - name: Update appcast.xml
+        env:
+          VERSION: ${{ github.event.client_payload.version }}
+          DOWNLOAD_URL: ${{ github.event.client_payload.download_url }}
+          ED_SIGNATURE: ${{ github.event.client_payload.ed_signature }}
+          FILE_SIZE: ${{ github.event.client_payload.file_size }}
+          MIN_SYSTEM_VERSION: ${{ github.event.client_payload.min_system_version }}
+        run: |
+          python3 scripts/update-appcast.py
+
+      - name: Update src/config.ts
+        env:
+          VERSION: ${{ github.event.client_payload.version }}
+          DOWNLOAD_URL: ${{ github.event.client_payload.download_url }}
+        run: |
+          cat > src/config.ts << EOF
+          // Auto-updated by GitHub Actions when new releases are published
+          export const LATEST_VERSION = "${VERSION}";
+          export const DOWNLOAD_URL = "${DOWNLOAD_URL}";
+          EOF
+
+      - name: Commit and push changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add public/appcast.xml src/config.ts
+          git diff --cached --quiet || git commit -m "Update appcast for v${{ github.event.client_payload.version }}"
+          git push
