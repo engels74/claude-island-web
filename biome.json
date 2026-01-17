@@ -1,0 +1,95 @@
+{
+	"$schema": "https://biomejs.dev/schemas/2.3.11/schema.json",
+	"vcs": {
+		"enabled": true,
+		"clientKind": "git",
+		"useIgnoreFile": true,
+		"defaultBranch": "main"
+	},
+	"html": {
+		"experimentalFullSupportEnabled": true,
+		"formatter": {
+			"indentScriptAndStyle": false
+		}
+	},
+	"files": {
+		"includes": [
+			"src/**",
+			"*.ts",
+			"*.js",
+			"*.json",
+			"*.mjs",
+			"!node_modules",
+			"!dist",
+			"!.astro",
+			"!bun.lock",
+			"!src/env.d.ts"
+		]
+	},
+	"formatter": {
+		"enabled": true,
+		"indentStyle": "tab",
+		"indentWidth": 2,
+		"lineWidth": 100
+	},
+	"javascript": {
+		"formatter": {
+			"quoteStyle": "single",
+			"trailingCommas": "none"
+		}
+	},
+	"json": {
+		"formatter": {
+			"trailingCommas": "none"
+		}
+	},
+	"css": {
+		"formatter": { "enabled": true },
+		"linter": { "enabled": true }
+	},
+	"assist": {
+		"enabled": true,
+		"actions": {
+			"source": {
+				"organizeImports": "on"
+			}
+		}
+	},
+	"linter": {
+		"enabled": true,
+		"rules": {
+			"recommended": true,
+			"style": {
+				"noNonNullAssertion": "warn",
+				"useBlockStatements": "off",
+				"useTemplate": "warn"
+			},
+			"suspicious": {
+				"noExplicitAny": "warn",
+				"noConsole": "warn"
+			},
+			"complexity": {
+				"noForEach": "off"
+			}
+		}
+	},
+	"overrides": [
+		{
+			"includes": ["**/*.svelte", "**/*.astro"],
+			"linter": {
+				"rules": {
+					"style": { "useConst": "off", "useImportType": "off" },
+					"correctness": { "noUnusedVariables": "off", "noUnusedImports": "off" }
+				}
+			}
+		},
+		{
+			"includes": ["uno.config.ts", "astro.config.mjs", "svelte.config.js"],
+			"linter": {
+				"rules": {
+					"style": { "noDefaultExport": "off" }
+				}
+			}
+		}
+	]
+}

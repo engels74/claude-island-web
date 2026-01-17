@@ -1,0 +1,41 @@
+repos:
+  # Built-in hooks (Rust-native, fast)
+  - repo: builtin
+    hooks:
+      - id: trailing-whitespace
+        args: [--markdown-linebreak-ext=md]
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-json
+      - id: check-toml
+      - id: check-merge-conflict
+      - id: detect-private-key
+      - id: no-commit-to-branch
+        args: [--branch, main]
+      - id: check-added-large-files
+        args: [--maxkb=500]
+        exclude: ^(bun\.lock|tsconfig\.json)$
+
+  # Local hooks using Bun
+  - repo: local
+    hooks:
+      - id: biome-check
+        name: Biome check (format + lint)
+        entry: bunx biome check --write
+        language: system
+        files: \.(js|mjs|ts|json|css|svelte|astro)$
+        pass_filenames: true
+
+      - id: astro-check
+        name: Astro type check
+        entry: bun run check
+        language: system
+        pass_filenames: false
+        stages: [pre-push]
+
+      - id: bun-test
+        name: Run tests
+        entry: bun test
+        language: system
+        pass_filenames: false
+        stages: [pre-push]
