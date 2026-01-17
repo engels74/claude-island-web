@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle" xmlns:dc="http://purl.org/dc/elements/1.1/">
+<?xml version='1.0' encoding='utf-8'?>
+<rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle" version="2.0">
     <channel>
         <title>Claude Island Changelog</title>
         <link>https://claudeisland.engels74.net/</link>
         <description>Most recent updates for Claude Island.</description>
         <language>en</language>
-        <!-- Release items will be added here by automation -->
-    </channel>
+        
+    <item><title>Version 1.2.0-test</title><pubDate>Sat, 17 Jan 2026 14:44:13 +0000</pubDate><sparkle:version>1.2.0-test</sparkle:version><sparkle:shortVersionString>1.2.0-test</sparkle:shortVersionString><sparkle:minimumSystemVersion>15.6</sparkle:minimumSystemVersion><enclosure url="https://github.com/engels74/claude-island/releases/download/v1.2.0-test/ClaudeIsland-1.2.0-test.dmg" length="3249766" type="application/octet-stream" sparkle:edSignature="OeTEvRsuYezGBBnsUfTCQupDDf+2oQpl+zmN7cqYmRn/MAkA0mSI+pPxRcYXaSxZvFZc9gDzvBRt2f8fi+uYDA==" /></item></channel>
 </rss>
