@@ -30,11 +30,11 @@ jobs:
           VERSION: ${{ github.event.client_payload.version }}
           DOWNLOAD_URL: ${{ github.event.client_payload.download_url }}
         run: |
-          cat > src/config.ts << EOF
-          // Auto-updated by GitHub Actions when new releases are published
-          export const LATEST_VERSION = "${VERSION}";
-          export const DOWNLOAD_URL = "${DOWNLOAD_URL}";
-          EOF
+          printf '%s\n' \
+            "// Auto-updated by GitHub Actions when new releases are published" \
+            "export const LATEST_VERSION = \"${VERSION}\";" \
+            "export const DOWNLOAD_URL = \"${DOWNLOAD_URL}\";" \
+            > src/config.ts
 
       - name: Commit and push changes
         id: commit

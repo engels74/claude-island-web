@@ -181,7 +181,14 @@ def update_appcast(appcast_path: Path = APPCAST_PATH, /) -> None:
 
     prune_old_items(channel_elem)
 
+    # Write XML to file
     tree.write(appcast_path, encoding="utf-8", xml_declaration=True)
+
+    # Post-process: strip trailing whitespace and ensure trailing newline
+    # (required by pre-commit hooks)
+    content = appcast_path.read_text(encoding="utf-8")
+    lines = [line.rstrip() for line in content.splitlines()]
+    appcast_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
 if __name__ == "__main__":
