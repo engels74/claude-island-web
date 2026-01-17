@@ -4,13 +4,16 @@ on:
   repository_dispatch:
     types: [update-appcast]
 
+permissions:
+  contents: write
+
 jobs:
   update:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout website
-        uses: actions/checkout@v6
+        uses: actions/checkout@v4
 
       - name: Update appcast.xml
         env:

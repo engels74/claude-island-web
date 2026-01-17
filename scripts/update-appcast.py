@@ -88,11 +88,18 @@ def load_config_from_env() -> ReleaseConfig:
         msg = f"Missing required environment variable: {e.args[0]}"
         raise AppcastError(msg) from e
 
+    file_size = os.environ.get("FILE_SIZE", "0")
+    try:
+        int(file_size)
+    except ValueError as e:
+        msg = f"FILE_SIZE must be a valid integer, got: {file_size!r}"
+        raise AppcastError(msg) from e
+
     return ReleaseConfig(
         version=version,
         download_url=download_url,
         ed_signature=os.environ.get("ED_SIGNATURE", ""),
-        file_size=os.environ.get("FILE_SIZE", "0"),
+        file_size=file_size,
         min_system_version=os.environ.get("MIN_SYSTEM_VERSION", "15.6"),
     )
 
