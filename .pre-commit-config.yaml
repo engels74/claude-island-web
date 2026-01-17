@@ -4,26 +4,17 @@ repos:
     hooks:
       - id: trailing-whitespace
         args: [--markdown-linebreak-ext=md]
-        stages: [pre-commit, manual]
       - id: end-of-file-fixer
-        stages: [pre-commit, manual]
       - id: check-yaml
-        stages: [pre-commit, manual]
       - id: check-json
-        stages: [pre-commit, manual]
       - id: check-toml
-        stages: [pre-commit, manual]
       - id: check-merge-conflict
-        stages: [pre-commit, manual]
       - id: detect-private-key
-        stages: [pre-commit, manual]
       - id: no-commit-to-branch
         args: [--branch, main]
-        stages: [pre-commit]
       - id: check-added-large-files
         args: [--maxkb=500]
         exclude: ^(bun\.lock|tsconfig\.json)$
-        stages: [pre-commit, manual]
 
   # Local hooks using Bun
   - repo: local
@@ -34,7 +25,6 @@ repos:
         language: system
         files: \.(js|mjs|ts|json|css|svelte|astro)$
         pass_filenames: true
-        stages: [pre-commit, manual]
 
       - id: astro-check
         name: Astro type check
