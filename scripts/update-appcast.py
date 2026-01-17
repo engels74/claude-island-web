@@ -90,7 +90,7 @@ def load_config_from_env() -> ReleaseConfig:
 
     file_size = os.environ.get("FILE_SIZE", "0")
     try:
-        int(file_size)
+        _ = int(file_size)
     except ValueError as e:
         msg = f"FILE_SIZE must be a valid integer, got: {file_size!r}"
         raise AppcastError(msg) from e
@@ -188,7 +188,7 @@ def update_appcast(appcast_path: Path = APPCAST_PATH, /) -> None:
     # (required by pre-commit hooks)
     content = appcast_path.read_text(encoding="utf-8")
     lines = [line.rstrip() for line in content.splitlines()]
-    appcast_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    _ = appcast_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
 if __name__ == "__main__":
