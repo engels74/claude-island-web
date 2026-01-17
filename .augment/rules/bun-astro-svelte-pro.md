@@ -42,16 +42,16 @@ export default defineConfig({
   // GitHub Pages configuration
   site: 'https://username.github.io',
   base: '/repo-name', // Only for project repos, omit for username.github.io
-  
+
   // Static output is default in Astro 5 - no config needed
-  
+
   // Integrations (order matters)
   integrations: [
     UnoCSS({ injectReset: true }), // CSS framework first
     svelte(),                       // UI framework
     sitemap(),                      // Build tools last
   ],
-  
+
   // Type-safe environment variables (Astro 5+)
   env: {
     schema: {
@@ -59,7 +59,7 @@ export default defineConfig({
       BUILD_TIME: envField.string({ context: 'server', access: 'public', optional: true }),
     },
   },
-  
+
   // Prefetch for faster navigation
   prefetch: { prefetchAll: true, defaultStrategy: 'viewport' },
 });
@@ -256,7 +256,7 @@ const chartData = await fetchChartData();
   // Explicit reactivity - works anywhere (components, .svelte.ts files)
   let count = $state(0);
   let user = $state({ name: 'Guest', loggedIn: false });
-  
+
   // Direct mutation works (Svelte proxies deeply)
   function login() {
     user.name = 'Alice';
@@ -269,10 +269,10 @@ const chartData = await fetchChartData();
 ```svelte
 <script lang="ts">
   let items = $state<{ price: number; qty: number }[]>([]);
-  
+
   // Simple expression
   const total = $derived(items.reduce((sum, i) => sum + i.price * i.qty, 0));
-  
+
   // Complex logic with multiple statements
   const summary = $derived.by(() => {
     if (items.length === 0) return 'Cart empty';
@@ -286,7 +286,7 @@ const chartData = await fetchChartData();
 ```svelte
 <script lang="ts">
   let seconds = $state(0);
-  
+
   $effect(() => {
     const interval = setInterval(() => seconds++, 1000);
     // Cleanup runs before re-run and on unmount
@@ -305,8 +305,8 @@ const chartData = await fetchChartData();
     class?: string;               // Reserved word needs renaming
     onAction?: (id: string) => void;  // Callback prop (replaces events)
   }
-  
-  let { 
+
+  let {
     title,
     count = 0,
     class: className = '',
@@ -331,13 +331,13 @@ const chartData = await fetchChartData();
 <script lang="ts">
   // ✅ API responses - replaced entirely, never mutated
   let chartData = $state.raw<DataPoint[]>([]);
-  
+
   async function refresh() {
     chartData = await fetch('/api/data').then(r => r.json());
   }
-  
+
   // ❌ chartData.push(newPoint) won't trigger updates with $state.raw!
-  
+
   // ✅ Form state - mutated in place
   let formFields = $state({ name: '', email: '' });
   formFields.name = 'Alice'; // Works - triggers update
@@ -350,13 +350,13 @@ const chartData = await fetchChartData();
 <!-- Card.svelte -->
 <script lang="ts">
   import type { Snippet } from 'svelte';
-  
+
   interface Props {
     children: Snippet;
     header?: Snippet;
     footer?: Snippet<[{ count: number }]>;
   }
-  
+
   let { children, header, footer }: Props = $props();
   let count = $state(0);
 </script>
@@ -365,9 +365,9 @@ const chartData = await fetchChartData();
   {#if header}
     <header>{@render header()}</header>
   {/if}
-  
+
   <main>{@render children()}</main>
-  
+
   {#if footer}
     <footer>{@render footer({ count })}</footer>
   {/if}
@@ -378,9 +378,9 @@ const chartData = await fetchChartData();
   {#snippet header()}
     <h2>My Card</h2>
   {/snippet}
-  
+
   <p>This is default content (children)</p>
-  
+
   {#snippet footer({ count })}
     <button onclick={() => count++}>Clicked {count}</button>
   {/snippet}
@@ -448,7 +448,7 @@ import extractorSvelte from '@unocss/extractor-svelte';
 export default defineConfig({
   // Required for Svelte class: directive support
   extractors: [extractorSvelte()],
-  
+
   presets: [
     presetWind3({ dark: 'class' }), // Tailwind 3 compatibility
     presetAttributify({ prefix: 'un-' }),
@@ -468,12 +468,12 @@ export default defineConfig({
       },
     }),
   ],
-  
+
   transformers: [
     transformerVariantGroup(),  // hover:(bg-blue-500 text-white)
     transformerDirectives(),     // @apply support
   ],
-  
+
   // Custom shortcuts
   shortcuts: {
     'btn': 'px-4 py-2 rounded-lg font-medium transition-colors',
@@ -482,7 +482,7 @@ export default defineConfig({
     'input': 'w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary',
     'flex-center': 'flex items-center justify-center',
   },
-  
+
   // Theme with CSS variables for runtime theming
   theme: {
     colors: {
@@ -490,7 +490,7 @@ export default defineConfig({
       secondary: 'hsl(var(--secondary) / <alpha-value>)',
     },
   },
-  
+
   // CSS variable definitions
   preflights: [{
     getCSS: () => `
@@ -504,7 +504,7 @@ export default defineConfig({
       }
     `,
   }],
-  
+
   // Safelist for dynamic classes
   safelist: ['prose', 'prose-lg', 'prose-invert'],
 });
@@ -657,10 +657,10 @@ import heroImage from '@/assets/hero.jpg';
 ---
 
 <!-- Automatic WebP conversion, dimension inference, lazy loading -->
-<Image 
-  src={heroImage} 
-  alt="Hero" 
-  width={800} 
+<Image
+  src={heroImage}
+  alt="Hero"
+  width={800}
   height={600}
   format="webp"
 />
