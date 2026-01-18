@@ -1075,7 +1075,7 @@ const socialImageURL = new URL('/og-image.png', Astro.site);
 		<!-- Prevent FOUC for theme -->
 		<script is:inline>
 			const theme = localStorage.getItem('theme');
-			if (theme === 'light') {
+			if (theme === 'light' || (!theme && !window.matchMedia('(prefers-color-scheme: dark)').matches)) {
 				document.documentElement.classList.remove('dark');
 			}
 		</script>
