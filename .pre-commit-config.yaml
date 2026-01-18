@@ -23,7 +23,7 @@ repos:
         name: Biome check (format + lint)
         entry: bunx biome check --write
         language: system
-        files: \.(js|mjs|ts|json|css|svelte|astro)$
+        files: \.(js|mjs|ts|json|css|svelte)$
         pass_filenames: true
 
       - id: astro-check
