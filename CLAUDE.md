@@ -4,63 +4,78 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Static-first content site using **Bun + Astro 5 + Svelte 5 + UnoCSS**, deployed to GitHub Pages at `claudeisland.engels74.net`. Astro handles routing and static generation; Svelte 5 components are used exclusively as interactive islands within otherwise static pages.
+Claude Island Web is a static website for [Claude Island](https://github.com/engels74/claude-island), a macOS menu bar app for Claude Code CLI. The site is deployed to GitHub Pages at [claudeisland.engels74.net](https://claudeisland.engels74.net).
+
+## Tech Stack
+
+- **Runtime**: Bun
+- **Framework**: Astro 5 (static site generator)
+- **Components**: Svelte 5 with Runes (islands architecture)
+- **Styling**: UnoCSS with custom theme
+- **Linting**: Biome
 
 ## Commands
 
 ```bash
-bun install          # Install dependencies
-bun run dev          # Start dev server at localhost:4321
-bun run build        # Build for production (runs type checks first)
-bun run preview      # Preview production build locally
-bun run check        # Run Astro + Svelte type checking
-bun run lint         # Check code with Biome
-bun run lint:fix     # Auto-fix lint issues
-bun run format       # Format code with Biome
-bun test             # Run tests with Bun's test runner
+bun install              # Install dependencies
+bun run dev              # Start dev server at localhost:4321
+bun run build            # Production build (includes type checking)
+bun run preview          # Preview production build
+bun run check            # Run Astro + Svelte type checking
+bun run lint             # Check code with Biome
+bun run lint:fix         # Auto-fix lint issues
 ```
 
 ## Architecture
 
-### Stack
+### Islands Architecture
 
-- **Bun** - Runtime and package manager
-- **Astro 5** - Static site generator with Content Layer API
-- **Svelte 5** - Interactive islands using Runes (`$state`, `$derived`, `$effect`)
-- **UnoCSS** - Atomic CSS with Tailwind compatibility (`presetWind3`)
-- **Biome** - Linting and formatting (replaces ESLint + Prettier)
-- **prek** - Pre-commit hooks
+Astro handles all routing and static generation. Svelte 5 components function exclusively as interactive islands within static pages. Use `client:*` directives only when interactivity is needed:
 
-### Key Patterns
+- `client:load` - Above-fold critical UI only
+- `client:visible` - Below-fold components (preferred default)
+- `client:idle` - Non-critical interactivity
+- Omit directive entirely for static/presentational components
 
-**Islands Architecture**: Default to static components. Only add `client:*` directives when interactivity is needed:
-- `client:visible` or `client:idle` - preferred defaults
-- `client:load` - only for above-fold critical UI
-- No directive = zero JavaScript shipped
+### Key Files
 
-**Svelte 5 Runes**: Use modern Runes API, not legacy stores or `$:` reactive statements:
+| File | Purpose |
+|------|---------|
+| `src/config.ts` | Download version and URL (auto-updated by GitHub Actions) |
+| `src/layouts/Layout.astro` | Base layout with SEO meta tags |
+| `src/pages/index.astro` | Landing page composition |
+| `uno.config.ts` | Theme colors, shortcuts, and custom CSS |
+
+### Svelte 5 Patterns
+
+Use Runes for state management:
 - `$state()` for reactive variables
 - `$derived()` for computed values
 - `$effect()` for side effects
-- `$props()` for component props
+- `$props()` for component props with TypeScript interface
 
-**Cross-Island State**: Islands are isolated - use `.svelte.ts` files with Runes for shared state (not Svelte stores).
+### UnoCSS Custom Theme
 
-**Content Collections**: Use Content Layer API with `glob()` loader in `src/content.config.ts` (not legacy `type: 'content'`).
+The project uses a tropical cove theme with custom colors defined in `uno.config.ts`:
+- `coral` (primary), `ocean`, `sand`, `palm`, `sunset`
+- Dark backgrounds: `deep-black`, `notch-black`, `surface`
+- Custom shortcuts: `btn-primary`, `card-hover`, `heading-1`, `body-large`, etc.
+- Icons via `@iconify-json/lucide` (use `i-lucide-*` classes)
 
-**Images**: Store in `src/assets/` for optimization, not `public/`.
+## Code Style
 
-### Configuration Files
-
-- `astro.config.mjs` - Astro + integrations (UnoCSS must load before Svelte)
-- `uno.config.ts` - UnoCSS presets, shortcuts, theme
-- `biome.json` - Linting rules with overrides for .svelte/.astro files
-- `svelte.config.js` - Svelte preprocessor config
-- `.pre-commit-config.yaml` - prek hooks (Biome check on commit, type check on push)
-
-### Code Style
-
-- Tabs for indentation
+Formatting is handled by Biome:
+- Tab indentation
 - Single quotes
 - No trailing commas
 - 100 character line width
+
+For Svelte/Astro files, some rules are relaxed (see `biome.json` overrides).
+
+## Deployment
+
+Pushes to `main` trigger GitHub Actions:
+1. `code-quality.yml` - Runs prek/Biome checks
+2. `deploy.yml` - Builds and deploys to GitHub Pages (only on quality check success)
+
+The `update-appcast.yml` workflow auto-updates `src/config.ts` when new releases are published in the main claude-island repo.
