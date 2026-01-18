@@ -1,7 +1,7 @@
 # Claude Island Web
 
 <p align="center">
-  <img src="public/favicon.svg" alt="Claude Island Logo" width="128" height="128">
+  <img src="public/favicon.svg" alt="Claude Island Logo" width="256" height="256">
 </p>
 
 <p align="center">
