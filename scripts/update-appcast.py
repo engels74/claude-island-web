@@ -6,17 +6,19 @@ updates the Sparkle appcast XML file with a new release entry.
 
 Environment Variables:
     VERSION (required): The version string (e.g., "1.2.3")
+    BUILD_NUMBER (required): The build number (e.g., "202601251200")
     DOWNLOAD_URL (required): URL to download the release archive
     ED_SIGNATURE (optional): EdDSA signature for Sparkle
     FILE_SIZE (optional): Size of the download in bytes (default: "0")
     MIN_SYSTEM_VERSION (optional): Minimum macOS version (default: "15.6")
 
 Usage:
-    VERSION=1.0.0 DOWNLOAD_URL=https://example.com/app.zip python update-appcast.py
+    VERSION=1.0.0 BUILD_NUMBER=202601251200 DOWNLOAD_URL=https://example.com/app.zip python update-appcast.py
 
 Example:
     >>> import os
     >>> os.environ["VERSION"] = "1.0.0"
+    >>> os.environ["BUILD_NUMBER"] = "202601251200"
     >>> os.environ["DOWNLOAD_URL"] = "https://example.com/app.zip"
     >>> update_appcast()  # Updates public/appcast.xml
 """
@@ -47,6 +49,7 @@ class EnvConfig(TypedDict):
     """Environment variable configuration for release info."""
 
     VERSION: str
+    BUILD_NUMBER: str
     DOWNLOAD_URL: str
     ED_SIGNATURE: NotRequired[str]
     FILE_SIZE: NotRequired[str]
@@ -59,6 +62,7 @@ class ReleaseConfig:
 
     Attributes:
         version: The version string (e.g., "1.2.3").
+        build_number: The build number (e.g., "202601251200").
         download_url: URL to download the release archive.
         ed_signature: EdDSA signature for Sparkle verification.
         file_size: Size of the download in bytes.
@@ -66,6 +70,7 @@ class ReleaseConfig:
     """
 
     version: str
+    build_number: str
     download_url: str
     ed_signature: str
     file_size: str
@@ -79,13 +84,31 @@ def load_config_from_env() -> ReleaseConfig:
         ReleaseConfig with values from environment.
 
     Raises:
-        AppcastError: If required environment variables are missing.
+        AppcastError: If required environment variables are missing, empty,
+            or have invalid values (e.g., non-numeric BUILD_NUMBER).
     """
     try:
         version = os.environ["VERSION"]
+        build_number = os.environ["BUILD_NUMBER"]
         download_url = os.environ["DOWNLOAD_URL"]
     except KeyError as e:
         msg = f"Missing required environment variable: {e.args[0]}"
+        raise AppcastError(msg) from e
+
+    if not version:
+        msg = "VERSION must be non-empty"
+        raise AppcastError(msg)
+    if not build_number:
+        msg = "BUILD_NUMBER must be non-empty"
+        raise AppcastError(msg)
+    if not download_url:
+        msg = "DOWNLOAD_URL must be non-empty"
+        raise AppcastError(msg)
+
+    try:
+        _ = int(build_number)
+    except ValueError as e:
+        msg = f"BUILD_NUMBER must be a valid integer, got: {build_number!r}"
         raise AppcastError(msg) from e
 
     file_size = os.environ.get("FILE_SIZE", "0")
@@ -97,6 +120,7 @@ def load_config_from_env() -> ReleaseConfig:
 
     return ReleaseConfig(
         version=version,
+        build_number=build_number,
         download_url=download_url,
         ed_signature=os.environ.get("ED_SIGNATURE", ""),
         file_size=file_size,
@@ -118,7 +142,9 @@ def create_release_item(config: ReleaseConfig, /) -> ET.Element:
     ET.SubElement(item, "pubDate").text = datetime.now(timezone.utc).strftime(
         "%a, %d %b %Y %H:%M:%S %z"
     )
-    ET.SubElement(item, f"{{{SPARKLE_NS}}}version").text = config.version
+    # Use build_number for sparkle:version (compared against CFBundleVersion)
+    ET.SubElement(item, f"{{{SPARKLE_NS}}}version").text = config.build_number
+    # Use version for sparkle:shortVersionString (displayed to user)
     ET.SubElement(item, f"{{{SPARKLE_NS}}}shortVersionString").text = config.version
     ET.SubElement(
         item, f"{{{SPARKLE_NS}}}minimumSystemVersion"

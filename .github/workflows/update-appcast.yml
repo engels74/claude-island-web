@@ -28,6 +28,7 @@ jobs:
       - name: Update appcast.xml
         env:
           VERSION: ${{ github.event.client_payload.version }}
+          BUILD_NUMBER: ${{ github.event.client_payload.build_number }}
           DOWNLOAD_URL: ${{ github.event.client_payload.download_url }}
           ED_SIGNATURE: ${{ github.event.client_payload.ed_signature }}
           FILE_SIZE: ${{ github.event.client_payload.file_size }}
