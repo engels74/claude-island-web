@@ -84,7 +84,8 @@ def load_config_from_env() -> ReleaseConfig:
         ReleaseConfig with values from environment.
 
     Raises:
-        AppcastError: If required environment variables are missing.
+        AppcastError: If required environment variables are missing, empty,
+            or have invalid values (e.g., non-numeric BUILD_NUMBER).
     """
     try:
         version = os.environ["VERSION"]
@@ -92,6 +93,22 @@ def load_config_from_env() -> ReleaseConfig:
         download_url = os.environ["DOWNLOAD_URL"]
     except KeyError as e:
         msg = f"Missing required environment variable: {e.args[0]}"
+        raise AppcastError(msg) from e
+
+    if not version:
+        msg = "VERSION must be non-empty"
+        raise AppcastError(msg)
+    if not build_number:
+        msg = "BUILD_NUMBER must be non-empty"
+        raise AppcastError(msg)
+    if not download_url:
+        msg = "DOWNLOAD_URL must be non-empty"
+        raise AppcastError(msg)
+
+    try:
+        _ = int(build_number)
+    except ValueError as e:
+        msg = f"BUILD_NUMBER must be a valid integer, got: {build_number!r}"
         raise AppcastError(msg) from e
 
     file_size = os.environ.get("FILE_SIZE", "0")
