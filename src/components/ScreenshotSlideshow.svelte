@@ -28,10 +28,10 @@
 			} else {
 				// Fallback to manual list if API fails
 				screenshots = [
-					'/screenshots/001-claude-code-session-output.png',
-					'/screenshots/002-token-tracking-settings.png',
-					'/screenshots/003-settings-menu-full.png',
-					'/screenshots/004-menu-bar-icon-compact.png'
+					'/screenshots/001-menu-bar-icon-compact.png',
+					'/screenshots/002-claude-code-session-output.png',
+					'/screenshots/003-token-tracking-settings.png',
+					'/screenshots/004-settings-menu-full.png'
 				];
 			}
 
