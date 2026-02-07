@@ -45,7 +45,10 @@
 	},
 	"css": {
 		"formatter": { "enabled": true },
-		"linter": { "enabled": true }
+		"linter": { "enabled": true },
+		"parser": {
+			"cssModules": true
+		}
 	},
 	"assist": {
 		"enabled": true,
@@ -76,6 +79,11 @@
 	"overrides": [
 		{
 			"includes": ["**/*.svelte", "**/*.astro"],
+			"css": {
+				"linter": {
+					"enabled": false
+				}
+			},
 			"linter": {
 				"rules": {
 					"style": { "useConst": "off", "useImportType": "off" },
