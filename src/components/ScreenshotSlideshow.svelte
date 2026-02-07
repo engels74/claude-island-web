@@ -17,27 +17,32 @@
 	let containerWidth = $state(0);
 	let autoPlayTimer = $state<ReturnType<typeof setInterval> | null>(null);
 
-	onMount(async () => {
-		// Get available screenshots
-		const response = await fetch('/api/screenshots');
-		if (response.ok) {
-			screenshots = await response.json();
-		} else {
-			// Fallback to manual list if API fails
-			screenshots = [
-				'/screenshots/001-claude-code-session-output.png',
-				'/screenshots/002-token-tracking-settings.png',
-				'/screenshots/003-settings-menu-full.png',
-				'/screenshots/004-menu-bar-icon-compact.png'
-			];
-		}
-
-		isLoading = false;
-		updateDimensions();
-		startAutoPlay();
-
+	onMount(() => {
 		window.addEventListener('resize', updateDimensions);
-		return () => window.removeEventListener('resize', updateDimensions);
+
+		(async () => {
+			const response = await fetch('/api/screenshots');
+			if (response.ok) {
+				screenshots = await response.json();
+			} else {
+				// Fallback to manual list if API fails
+				screenshots = [
+					'/screenshots/001-claude-code-session-output.png',
+					'/screenshots/002-token-tracking-settings.png',
+					'/screenshots/003-settings-menu-full.png',
+					'/screenshots/004-menu-bar-icon-compact.png'
+				];
+			}
+
+			isLoading = false;
+			updateDimensions();
+			startAutoPlay();
+		})();
+
+		return () => {
+			window.removeEventListener('resize', updateDimensions);
+			if (autoPlayTimer) clearInterval(autoPlayTimer);
+		};
 	});
 
 	function updateDimensions() {
@@ -101,7 +106,7 @@
 	}
 </script>
 
-<svelte:window on:keydown={handleKeyDown} />
+<svelte:window onkeydown={handleKeyDown} />
 
 {#if isLoading}
 	<div class="flex items-center justify-center" style="height: 300px;">
@@ -110,14 +115,14 @@
 {:else if screenshots.length > 0}
 	<div
 		class="slideshow-container relative w-full max-w-3xl mx-auto px-4"
-		on:mouseenter={handleMouseEnter}
-		on:mouseleave={handleMouseLeave}
+		onmouseenter={handleMouseEnter}
+		onmouseleave={handleMouseLeave}
 		role="region"
 		aria-label="Screenshot slideshow"
 	>
 		<!-- Animated background gradient -->
 		<div class="absolute inset-0 -z-10 rounded-2xl">
-			<div class="absolute inset-0 bg-gradient-to-br from-coral/10 via-ocean/5 to-transparent rounded-2xl opacity-0 transition-opacity duration-500" class:opacity-100={!isPaused} />
+			<div class="absolute inset-0 bg-gradient-to-br from-coral/10 via-ocean/5 to-transparent rounded-2xl opacity-0 transition-opacity duration-500" class:opacity-100={!isPaused}></div>
 		</div>
 
 		<!-- Slide wrapper with dynamic dimensions -->
@@ -132,7 +137,7 @@
 				class:bg-ocean={currentIndex === 1}
 				class:bg-sunset={currentIndex === 2}
 				class:bg-palm={currentIndex === 3}
-			/>
+			></div>
 
 			<!-- Slides container -->
 			<div class="relative w-full h-full overflow-hidden">
@@ -150,13 +155,13 @@
 			</div>
 
 			<!-- Overlay frame effect -->
-			<div class="absolute inset-0 pointer-events-none rounded-2xl ring-1 ring-white/5" />
+			<div class="absolute inset-0 pointer-events-none rounded-2xl ring-1 ring-white/5"></div>
 
 			<!-- Navigation overlay (visible on hover/pause) -->
 			{#if isPaused}
 				<div class="absolute inset-0 flex items-center justify-between px-4 transition-opacity duration-300 opacity-100 group">
 					<button
-						on:click={prevSlide}
+						onclick={prevSlide}
 						class="p-2.5 rounded-lg bg-coral/80 hover:bg-coral text-white shadow-lg transition-all duration-200 hover:scale-110 active:scale-95"
 						aria-label="Previous screenshot"
 					>
@@ -165,7 +170,7 @@
 						</svg>
 					</button>
 					<button
-						on:click={nextSlide}
+						onclick={nextSlide}
 						class="p-2.5 rounded-lg bg-coral/80 hover:bg-coral text-white shadow-lg transition-all duration-200 hover:scale-110 active:scale-95"
 						aria-label="Next screenshot"
 					>
@@ -181,7 +186,7 @@
 		<div class="flex items-center justify-center gap-2.5 mt-6">
 			{#each screenshots as _, index}
 				<button
-					on:click={() => goToSlide(index)}
+					onclick={() => goToSlide(index)}
 					class="group relative transition-all duration-300"
 					aria-label="Go to slide {index + 1}"
 					aria-current={index === currentIndex ? 'true' : 'false'}
@@ -190,7 +195,7 @@
 						class="w-2.5 h-2.5 rounded-full transition-all duration-300 dot-indicator"
 						class:active={index === currentIndex}
 						data-active={index === currentIndex}
-					/>
+					></div>
 				</button>
 			{/each}
 		</div>
