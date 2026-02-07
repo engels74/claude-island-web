@@ -14,6 +14,7 @@
 		"prepare": "prek install"
 	},
 	"dependencies": {
+		"@astrojs/check": "^0.9.6",
 		"@astrojs/svelte": "^7.2.5",
 		"astro": "^5.16.11",
 		"svelte": "^5.46.4",
