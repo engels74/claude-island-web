@@ -1026,7 +1026,7 @@ const faqs = [
 	{
 		question: 'How do I install Claude Island?',
 		answer:
-			'Download the DMG file, open it, and drag Claude Island to your Applications folder. Since the app is not notarized, you\'ll need to right-click the app and select "Open" on first launch, then click "Open" in the security dialog.'
+			'Download the DMG file, open it, and drag Claude Island to your Applications folder. Since the app uses ad-hoc signing, macOS will show a Gatekeeper warning. To bypass it, go to System Settings → Privacy & Security, scroll down, and click "Open Anyway".'
 	},
 	{
 		question: 'Why does macOS show a security warning?',
@@ -1036,7 +1036,7 @@ const faqs = [
 	{
 		question: 'Is this application safe?',
 		answer:
-			'Yes. Claude Island requests Accessibility permission to monitor global mouse events—this is standard for apps like window managers and screenshot tools. Keychain access is optional and only used for token tracking; you can disable it in settings. The app is ad-hoc signed (not notarized), which causes the Gatekeeper warning, but this is simply a cost issue, not a security risk. <a href="https://deepwiki.com/search/is-claude-island-safe-to-use-i_b6aed731-54db-4ac4-89e5-7ce9ad984006" target="_blank" class="text-coral hover:text-coral/80 transition-colors underline">Learn more about why Claude Island needs accessibility and keychain permissions</a>'
+			'Yes. Claude Island requests Accessibility permission to monitor global mouse events—this is standard for apps like window managers and screenshot tools. Keychain access is optional and only used for token tracking; you can disable it in settings. The app is ad-hoc signed (not notarized), which causes the Gatekeeper warning, but this is simply a cost issue, not a security risk. <a href="https://deepwiki.com/search/is-claude-island-safe-to-use-i_b6aed731-54db-4ac4-89e5-7ce9ad984006" target="_blank" rel="noopener noreferrer" class="text-coral hover:text-coral/80 transition-colors underline">Learn more about why Claude Island needs accessibility and keychain permissions</a>'
 	},
 	{
 		question: 'What macOS version do I need?',
