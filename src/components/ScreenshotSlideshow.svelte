@@ -16,6 +16,7 @@
 	let containerHeight = $state(0);
 	let containerWidth = $state(0);
 	let autoPlayTimer = $state<ReturnType<typeof setInterval> | null>(null);
+	let dimensionLoadId = 0;
 
 	onMount(() => {
 		window.addEventListener('resize', updateDimensions);
@@ -48,9 +49,10 @@
 	function updateDimensions() {
 		if (screenshots.length === 0) return;
 
+		const loadId = ++dimensionLoadId;
 		const img = new Image();
 		img.onload = () => {
-			// Scale to fit container width while maintaining aspect ratio
+			if (loadId !== dimensionLoadId) return;
 			const maxWidth = Math.min(img.width, 600);
 			containerWidth = maxWidth;
 			containerHeight = (img.height / img.width) * maxWidth;
@@ -59,6 +61,7 @@
 	}
 
 	function goToSlide(index: number) {
+		if (screenshots.length === 0) return;
 		currentIndex = ((index % screenshots.length) + screenshots.length) % screenshots.length;
 		updateDimensions();
 		resetAutoPlay();
@@ -106,19 +109,20 @@
 	}
 </script>
 
-<svelte:window onkeydown={handleKeyDown} />
-
 {#if isLoading}
 	<div class="flex items-center justify-center" style="height: 300px;">
 		<div class="animate-pulse text-white/40">Loading screenshots...</div>
 	</div>
 {:else if screenshots.length > 0}
+	<!-- svelte-ignore a11y_no_noninteractive_tabindex -->
 	<div
 		class="slideshow-container relative w-full max-w-3xl mx-auto px-4"
 		onmouseenter={handleMouseEnter}
 		onmouseleave={handleMouseLeave}
+		onkeydown={handleKeyDown}
 		role="region"
 		aria-label="Screenshot slideshow"
+		tabindex="0"
 	>
 		<!-- Animated background gradient -->
 		<div class="absolute inset-0 -z-10 rounded-2xl">
@@ -128,7 +132,7 @@
 		<!-- Slide wrapper with dynamic dimensions -->
 		<div
 			class="relative rounded-2xl overflow-hidden bg-notch-black border border-white/10 transition-all duration-300"
-			style="aspect-ratio: {containerWidth > 0 ? containerWidth / containerHeight : 1}; max-height: 600px;"
+			style="aspect-ratio: {containerWidth > 0 && containerHeight > 0 ? containerWidth / containerHeight : 16 / 9}; max-height: 600px;"
 		>
 			<!-- Glow effect behind current slide -->
 			<div

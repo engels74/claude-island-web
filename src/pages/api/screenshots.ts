@@ -25,7 +25,7 @@ export const GET: APIRoute = async () => {
 		});
 	} catch (_error) {
 		return new Response(JSON.stringify([]), {
-			status: 200,
+			status: 500,
 			headers: { 'Content-Type': 'application/json' }
 		});
 	}
