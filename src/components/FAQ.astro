@@ -1031,7 +1031,12 @@ const faqs = [
 	{
 		question: 'Why does macOS show a security warning?',
 		answer:
-			'Claude Island is not signed with an Apple Developer certificate (which costs $99/year). This is common for open-source apps. To bypass the warning, go to System Settings → Privacy & Security, scroll down, and click "Open Anyway". You only need to do this once.'
+			'Claude Island uses ad-hoc signing, which means you\'ll see a Gatekeeper warning. This isn\'t a security issue—it\'s simply because the app isn\'t notarized by Apple. To bypass the warning, go to System Settings → Privacy & Security, scroll down, and click "Open Anyway". You\'ll need to do this every time you update the app.'
+	},
+	{
+		question: 'Is this application safe?',
+		answer:
+			'Yes. Claude Island requests Accessibility permission to monitor global mouse events—this is standard for apps like window managers and screenshot tools. Keychain access is optional and only used for token tracking; you can disable it in settings. The app is ad-hoc signed (not notarized), which causes the Gatekeeper warning, but this is simply a cost issue, not a security risk. <a href="https://deepwiki.com/search/is-claude-island-safe-to-use-i_b6aed731-54db-4ac4-89e5-7ce9ad984006" target="_blank" class="text-coral hover:text-coral/80 transition-colors underline">Learn more about why Claude Island needs accessibility and keychain permissions</a>'
 	},
 	{
 		question: 'What macOS version do I need?',
@@ -1074,7 +1079,7 @@ const faqs = [
 							</span>
 						</summary>
 						<div class="faq-content">
-							<p class="body-base">{faq.answer}</p>
+							<p class="body-base" set:html={faq.answer} />
 						</div>
 					</details>
 				))
