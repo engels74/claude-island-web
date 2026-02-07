@@ -13,6 +13,7 @@
 	let currentIndex = $state(0);
 	let isLoading = $state(true);
 	let isPaused = $state(false);
+	let isFocused = $state(false);
 	let containerHeight = $state(0);
 	let containerWidth = $state(0);
 	let autoPlayTimer = $state<ReturnType<typeof setInterval> | null>(null);
@@ -99,6 +100,7 @@
 	}
 
 	function handleKeyDown(e: KeyboardEvent) {
+		if (!isFocused) return;
 		if (e.key === 'ArrowLeft') {
 			e.preventDefault();
 			prevSlide();
@@ -108,6 +110,8 @@
 		}
 	}
 </script>
+
+<svelte:window onkeydown={handleKeyDown} />
 
 {#if isLoading}
 	<div class="flex items-center justify-center" style="height: 300px;">
@@ -119,7 +123,8 @@
 		class="slideshow-container relative w-full max-w-3xl mx-auto px-4"
 		onmouseenter={handleMouseEnter}
 		onmouseleave={handleMouseLeave}
-		onkeydown={handleKeyDown}
+		onfocusin={() => isFocused = true}
+		onfocusout={() => isFocused = false}
 		role="region"
 		aria-label="Screenshot slideshow"
 		tabindex="0"
