@@ -1,4 +1,4 @@
 // Auto-updated by GitHub Actions when new releases are published
 export const LATEST_VERSION = '1.4.4';
 export const DOWNLOAD_URL =
-	'https://github.com/engels74/claude-island/releases/download/1.4.4/ClaudeIsland-1.4.4.dmg';
+	'https://github.com/engels74/claude-atoll/releases/download/1.4.4/ClaudeIsland-1.4.4.dmg';

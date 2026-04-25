@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Claude Island Web is a static website for [Claude Island](https://github.com/engels74/claude-island), a macOS menu bar app for Claude Code CLI. The site is deployed to GitHub Pages at [claudeisland.engels74.net](https://claudeisland.engels74.net).
+Claude Atoll Web is a static website for [Claude Atoll](https://github.com/engels74/claude-atoll), a macOS menu bar app for Claude Code CLI. The site is deployed to GitHub Pages at [claudeatoll.engels74.net](https://claudeatoll.engels74.net).
 
 ## Tech Stack
 
@@ -78,4 +78,4 @@ Pushes to `main` trigger GitHub Actions:
 1. `code-quality.yml` - Runs prek/Biome checks
 2. `deploy.yml` - Builds and deploys to GitHub Pages (only on quality check success)
 
-The `update-appcast.yml` workflow auto-updates `src/config.ts` when new releases are published in the main claude-island repo.
+The `update-appcast.yml` workflow auto-updates `src/config.ts` when new releases are published in the main claude-atoll repo.

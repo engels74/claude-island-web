@@ -153,7 +153,7 @@
 				{#each screenshots as screenshot, index (index)}
 					<img
 						src={screenshot}
-						alt="Claude Island screenshot {index + 1}"
+						alt="Claude Atoll screenshot {index + 1}"
 						class="absolute inset-0 w-full h-full object-contain transition-all duration-500"
 						class:opacity-0={index !== currentIndex}
 						class:opacity-100={index === currentIndex}
