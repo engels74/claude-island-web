@@ -168,36 +168,51 @@
 
 			<!-- Navigation overlay (visible on hover/pause) -->
 			{#if isPaused}
-				<div class="absolute inset-0 flex items-center justify-between px-4 transition-opacity duration-300 opacity-100 group">
-					<button
-						onclick={prevSlide}
-						class="p-2.5 rounded-lg bg-coral/80 hover:bg-coral text-white shadow-lg transition-all duration-200 hover:scale-110 active:scale-95"
-						aria-label="Previous screenshot"
-					>
-						<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-						</svg>
-					</button>
-					<button
-						onclick={nextSlide}
-						class="p-2.5 rounded-lg bg-coral/80 hover:bg-coral text-white shadow-lg transition-all duration-200 hover:scale-110 active:scale-95"
-						aria-label="Next screenshot"
-					>
-						<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-						</svg>
-					</button>
+					<div class="absolute inset-0 flex items-center justify-between px-4 transition-opacity duration-300 opacity-100 group">
+						<button
+							type="button"
+							onclick={prevSlide}
+							class="p-2.5 rounded-lg bg-coral/80 hover:bg-coral text-white shadow-lg transition-all duration-200 hover:scale-110 active:scale-95"
+							aria-label="Previous screenshot"
+						>
+							<svg
+								class="w-5 h-5"
+								fill="none"
+								stroke="currentColor"
+								viewBox="0 0 24 24"
+								aria-hidden="true"
+							>
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+							</svg>
+						</button>
+						<button
+							type="button"
+							onclick={nextSlide}
+							class="p-2.5 rounded-lg bg-coral/80 hover:bg-coral text-white shadow-lg transition-all duration-200 hover:scale-110 active:scale-95"
+							aria-label="Next screenshot"
+						>
+							<svg
+								class="w-5 h-5"
+								fill="none"
+								stroke="currentColor"
+								viewBox="0 0 24 24"
+								aria-hidden="true"
+							>
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+							</svg>
+						</button>
 				</div>
 			{/if}
 		</div>
 
 		<!-- Indicator dots -->
 		<div class="flex items-center justify-center gap-2.5 mt-6">
-			{#each screenshots as _, index}
-				<button
-					onclick={() => goToSlide(index)}
-					class="group relative transition-all duration-300"
-					aria-label="Go to slide {index + 1}"
+				{#each screenshots as _, index}
+					<button
+						type="button"
+						onclick={() => goToSlide(index)}
+						class="group relative transition-all duration-300"
+						aria-label="Go to slide {index + 1}"
 					aria-current={index === currentIndex ? 'true' : 'false'}
 				>
 					<div
