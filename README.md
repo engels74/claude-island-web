@@ -1,37 +1,37 @@
-# Claude Island Web
+# Claude Atoll Web
 
 <p align="center">
-  <img src="public/favicon.svg" alt="Claude Island Logo" width="256" height="256">
+  <img src="public/favicon.svg" alt="Claude Atoll Logo" width="256" height="256">
 </p>
 
 <p align="center">
-  <strong>The official website for Claude Island</strong><br>
+  <strong>The official website for Claude Atoll</strong><br>
   A Dynamic Island-style macOS menu bar app for Claude Code CLI
 </p>
 
 <p align="center">
-  <a href="https://claudeisland.engels74.net">Visit Website</a> •
-  <a href="https://github.com/engels74/claude-island">View macOS App</a>
+  <a href="https://claudeatoll.engels74.net">Visit Website</a> •
+  <a href="https://github.com/engels74/claude-atoll">View macOS App</a>
 </p>
 
 ---
 
 ## About
 
-Claude Island Web is the static website for [Claude Island](https://github.com/engels74/claude-island), a macOS menu bar application that provides a beautiful Dynamic Island-style overlay for monitoring and interacting with Claude Code CLI sessions.
+Claude Atoll Web is the static website for [Claude Atoll](https://github.com/engels74/claude-atoll), a macOS menu bar application that provides a beautiful Dynamic Island-style overlay for monitoring and interacting with Claude Code CLI sessions.
 
-**Live at:** [claudeisland.engels74.net](https://claudeisland.engels74.net)
+**Live at:** [claudeatoll.engels74.net](https://claudeatoll.engels74.net)
 
 ### What the Website Offers
 
-- **Product Overview** — Learn about Claude Island's features and capabilities
+- **Product Overview** — Learn about Claude Atoll's features and capabilities
 - **Download Links** — Get the latest version of the macOS app directly
-- **How It Works** — Step-by-step guide to setting up and using Claude Island
+- **How It Works** — Step-by-step guide to setting up and using Claude Atoll
 - **FAQ** — Answers to common questions about the app
 
-### About Claude Island (the macOS App)
+### About Claude Atoll (the macOS App)
 
-Claude Island enhances your Claude Code workflow with:
+Claude Atoll enhances your Claude Code workflow with:
 
 - **Notch UI** — Beautiful Dynamic Island-style overlay that lives in your menu bar
 - **Live Sessions** — Real-time monitoring of all your Claude Code CLI sessions
@@ -66,7 +66,7 @@ All commands are run from the root of the project:
 ## Project Structure
 
 ```
-claude-island-web/
+claude-atoll-web/
 ├── public/
 │   └── favicon.svg          # Site icon
 ├── src/
@@ -120,4 +120,4 @@ bun run preview
 
 ## License
 
-This project is part of [Claude Island](https://github.com/engels74/claude-island). See the main repository for license information.
+This project is part of [Claude Atoll](https://github.com/engels74/claude-atoll). See the main repository for license information.
